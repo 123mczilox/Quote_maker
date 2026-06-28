@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}Delete Quote{% endblock %}
+
+{% block content %}
+    <section class="panel danger-zone">
+        <h1>Delete Quote</h1>
+        <p>Are you sure you want to delete <strong>{{ quote.quote_number }}</strong> for {{ quote.customer.name }}?</p>
+        <p>This removes the quote and all its item rows.</p>
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button class="danger" type="submit">Yes, Delete Quote</button>
+                <a class="button secondary" href="{% url 'quote_list' %}">Cancel</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <section class="page-heading">
+        <div>
+            <h1>Quotation Management System</h1>
+            <p>Create professional roofing quotations, save them, and print or export them for customers.</p>
+        </div>
+        <div class="actions">
+            <a class="button" href="{% url 'create_quote' %}">Create Quote</a>
+            <a class="button secondary" href="{% url 'quote_list' %}">View Quotes</a>
+        </div>
+    </section>
+
+    <section class="grid stats-grid">
+        <div class="stat">
+            <span>Quotes</span>
+            <strong>{{ quote_count }}</strong>
+        </div>
+        <div class="stat">
+            <span>Customers</span>
+            <strong>{{ customer_count }}</strong>
+        </div>
+        <div class="stat">
+            <span>Products</span>
+            <strong>{{ product_count }}</strong>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h2 class="section-title">Quick Start</h2>
+        <div class="grid form-grid">
+            <a class="button secondary" href="{% url 'create_customer' %}">Add Customer</a>
+            <a class="button secondary" href="{% url 'create_product' %}">Add Product</a>
+            <a class="button" href="{% url 'create_quote' %}">Create Quotation</a>
+            <a class="button secondary" href="{% url 'quote_list' %}">Retrieve Old Quotes</a>
+        </div>
+    </section>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Customer{% endblock %}
+
+{% block content %}
+    <section class="page-heading">
+        <div>
+            <h1>Create Customer</h1>
+            <p>Add customer details once, then reuse them when preparing quotations.</p>
+        </div>
+        <div class="actions">
+            <a class="button secondary" href="{% url 'quote_list' %}">View Quotes</a>
+            <a class="button" href="{% url 'create_quote' %}">Create Quote</a>
+        </div>
+    </section>
+
+    <section class="panel">
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-actions">
+                <button type="submit">Save Customer</button>
+                <a class="button secondary" href="{% url 'home' %}">Cancel</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

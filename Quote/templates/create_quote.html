@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if quote %}Edit{% else %}Create{% endif %} Quote{% endblock %}
+
+{% block content %}
+    <section class="page-heading">
+        <div>
+            <h1>{% if quote %}Edit{% else %}Create{% endif %} Quote</h1>
+            <p>Add customer details, item rows, and delivery cost. Totals are calculated when the quote is saved.</p>
+        </div>
+        <div class="actions">
+            <a class="button secondary" href="{% url 'quote_list' %}">View Quotes</a>
+            <a class="button secondary" href="{% url 'create_customer' %}">Add Customer</a>
+            <a class="button secondary" href="{% url 'create_product' %}">Add Product</a>
+        </div>
+    </section>
+
+    <form method="post" id="quote-form">
+        {% csrf_token %}
+
+        <section class="panel">
+            <h2 class="section-title">Quote Details</h2>
+            {{ form.as_p }}
+        </section>
+
+        <section class="panel" style="margin-top: 16px;">
+            <div class="page-heading" style="margin-bottom: 12px;">
+                <div>
+                    <h2 class="section-title">Items</h2>
+                    <p>Use length for sheets. Leave length blank for items priced per piece.</p>
+                </div>
+                <button type="button" id="add-item">Add Item Row</button>
+            </div>
+
+            {{ item_formset.management_form }}
+            {{ item_formset.non_form_errors }}
+
+            <div id="item-forms">
+                {% for item_form in item_formset %}
+                    <div class="quote-item-card item-form">
+                        {% for hidden in item_form.hidden_fields %}
+                            {{ hidden }}
+                        {% endfor %}
+
+                        <div class="quote-item-grid">
+                            <div class="field">
+                                {{ item_form.product.label_tag }}
+                                {{ item_form.product.errors }}
+                                {{ item_form.product }}
+                            </div>
+                            <!-- <div class="field">
+                                {{ item_form.description.label_tag }}
+                                {{ item_form.description.errors }}
+                                {{ item_form.description }}
+                            </div> -->
+                            <div class="field">
+                                {{ item_form.color.label_tag }}
+                                {{ item_form.color.errors }}
+                                {{ item_form.color }}
+                            </div>
+                            <div class="field">
+                                {{ item_form.gauge.label_tag }}
+                                {{ item_form.gauge.errors }}
+                                {{ item_form.gauge }}
+                            </div>
+                            <div class="field">
+                                {{ item_form.quantity.label_tag }}
+                                {{ item_form.quantity.errors }}
+                                {{ item_form.quantity }}
+                            </div>
+                            <div class="field">
+                                {{ item_form.length.label_tag }}
+                                {{ item_form.length.errors }}
+                                {{ item_form.length }}
+                            </div>
+                            <div class="field">
+                                {{ item_form.unit_price.label_tag }}
+                                {{ item_form.unit_price.errors }}
+                                {{ item_form.unit_price }}
+                            </div>
+                        </div>
+
+                        <!-- <div class="form-actions">
+                            <strong>Preview total: KES <span class="line-total">0.00</span></strong>
+                            {% if item_form.DELETE %}
+                                <label style="margin: 0;">{{ item_form.DELETE }} Delete this row</label>
+                            {% endif %}
+                        </div> -->
+                    </div>
+                {% endfor %}
+            </div>
+
+            <template id="empty-item-template">
+                <div class="quote-item-card item-form">
+                    {% for hidden in item_formset.empty_form.hidden_fields %}
+                        {{ hidden }}
+                    {% endfor %}
+
+                    <div class="quote-item-grid">
+                        <div class="field">
+                            {{ item_formset.empty_form.product.label_tag }}
+                            {{ item_formset.empty_form.product }}
+                        </div>
+                        <!-- <div class="field">
+                            {{ item_formset.empty_form.description.label_tag }}
+                            {{ item_formset.empty_form.description }}
+                        </div> -->
+                        <div class="field">
+                            {{ item_formset.empty_form.color.label_tag }}
+                            {{ item_formset.empty_form.color }}
+                        </div>
+                        <div class="field">
+                            {{ item_formset.empty_form.gauge.label_tag }}
+                            {{ item_formset.empty_form.gauge }}
+                        </div>
+                        <div class="field">
+                            {{ item_formset.empty_form.quantity.label_tag }}
+                            {{ item_formset.empty_form.quantity }}
+                        </div>
+                        <div class="field">
+                            {{ item_formset.empty_form.length.label_tag }}
+                            {{ item_formset.empty_form.length }}
+                        </div>
+                        <div class="field">
+                            {{ item_formset.empty_form.unit_price.label_tag }}
+                            {{ item_formset.empty_form.unit_price }}
+                        </div>
+                    </div>
+
+                    <!-- <div class="form-actions">
+                        <strong>Preview total: KES <span class="line-total">0.00</span></strong>
+                        {% if item_formset.empty_form.DELETE %}
+                            <label style="margin: 0;">{{ item_formset.empty_form.DELETE }} Delete this row</label>
+                        {% endif %}
+                    </div> -->
+                </div>
+            </template>
+        </section>
+
+        <section class="panel" style="margin-top: 16px;">
+            <h2 class="section-title">Live Preview</h2>
+            <p><strong>Items subtotal:</strong> KES <span id="preview-subtotal">0.00</span></p>
+            <p><strong>Delivery:</strong> KES <span id="preview-delivery">0.00</span></p>
+            <p><strong>Quote total:</strong> KES <span id="preview-total">0.00</span></p>
+
+            <div class="form-actions">
+                <button type="submit">Save Quote</button>
+                <a class="button secondary" href="{% url 'quote_list' %}">Cancel</a>
+            </div>
+        </section>
+    </form>
+
+    <script>
+        const formContainer = document.querySelector('#item-forms');
+        const addButton = document.querySelector('#add-item');
+        const totalFormsInput = document.querySelector('[name$="-TOTAL_FORMS"]');
+        const emptyTemplate = document.querySelector('#empty-item-template');
+
+        function numberValue(input) {
+            const value = parseFloat(input?.value || '0');
+            return Number.isFinite(value) ? value : 0;
+        }
+
+        function calculateLineTotal(card) {
+            const quantity = numberValue(card.querySelector('[name$="-quantity"]'));
+            const lengthInput = card.querySelector('[name$="-length"]');
+            const length = lengthInput && lengthInput.value ? numberValue(lengthInput) : 1;
+            const unitPrice = numberValue(card.querySelector('[name$="-unit_price"]'));
+            const total = quantity * length * unitPrice;
+            card.querySelector('.line-total').textContent = total.toFixed(2);
+            return total;
+        }
+
+        function updatePreview() {
+            let subtotal = 0;
+            document.querySelectorAll('.item-form').forEach((card) => {
+                const deleteInput = card.querySelector('[name$="-DELETE"]');
+                if (!deleteInput || !deleteInput.checked) {
+                    subtotal += calculateLineTotal(card);
+                }
+            });
+
+            const delivery = numberValue(document.querySelector('[name="delivery_cost"]'));
+            document.querySelector('#preview-subtotal').textContent = subtotal.toFixed(2);
+            document.querySelector('#preview-delivery').textContent = delivery.toFixed(2);
+            document.querySelector('#preview-total').textContent = (subtotal + delivery).toFixed(2);
+        }
+
+        function bindCard(card) {
+            card.querySelectorAll('input, select, textarea').forEach((field) => {
+                field.addEventListener('input', updatePreview);
+                field.addEventListener('change', updatePreview);
+            });
+        }
+
+        addButton.addEventListener('click', () => {
+            const index = parseInt(totalFormsInput.value, 10);
+            const html = emptyTemplate.innerHTML.replaceAll('__prefix__', index);
+            formContainer.insertAdjacentHTML('beforeend', html);
+            totalFormsInput.value = index + 1;
+            bindCard(formContainer.lastElementChild);
+            updatePreview();
+        });
+
+        document.querySelectorAll('.item-form').forEach(bindCard);
+        updatePreview();
+    </script>
+{% endblock %}

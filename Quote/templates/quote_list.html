@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Quotes{% endblock %}
+
+{% block content %}
+    <section class="page-heading">
+        <div>
+            <h1>Quotes</h1>
+            <p>Open, edit, print, or delete saved customer quotations.</p>
+        </div>
+        <div class="actions">
+            <a class="button secondary" href="{% url 'home' %}">Dashboard</a>
+            <a class="button" href="{% url 'create_quote' %}">Create Quote</a>
+        </div>
+    </section>
+
+    <section class="panel">
+        {% if quotes %}
+            <div class="table-wrap">
+                <table class="app-table">
+                    <thead>
+                        <tr>
+                            <th>Quote No.</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Total</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quote in quotes %}
+                            <tr>
+                                <td><strong>{{ quote.quote_number }}</strong></td>
+                                <td>{{ quote.customer.name }}</td>
+                                <td>{{ quote.date_created|date:"Y/m/d" }}</td>
+                                <td>KES {{ quote.total }}</td>
+                                <td>
+                                    <div class="row-actions">
+                                        <a href="{% url 'quote_detail' quote.pk %}">View</a>
+                                        <a href="{% url 'update_quote' quote.pk %}">Edit</a>
+                                        <a href="{% url 'delete_quote' quote.pk %}">Delete</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="empty-state">
+                <p>No quotes have been added yet.</p>
+                <a class="button" href="{% url 'create_quote' %}">Create First Quote</a>
+            </div>
+        {% endif %}
+    </section>
+{% endblock %}

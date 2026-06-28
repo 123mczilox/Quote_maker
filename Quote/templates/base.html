@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Quotation Management{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #eef3f6;
+            --panel: #ffffff;
+            --ink: #14212b;
+            --muted: #60717d;
+            --line: #d7e1e7;
+            --brand: #006b8f;
+            --brand-dark: #074f68;
+            --accent: #c51d23;
+            --good: #14814a;
+            --danger: #b42318;
+            --shadow: 0 14px 34px rgba(14, 35, 48, 0.08);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+              font-family: "Merriweather", serif;
+        }
+
+        a {
+            color: var(--brand);
+        }
+
+        .app-header {
+            font-family: "Playfair Display", serif;
+            background: var(--panel);
+            border-bottom: 1px solid var(--line);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .nav {
+            font-family: "Playfair Display", serif;
+            align-items: center;
+            display: flex;
+            gap: 18px;
+            justify-content: space-between;
+            margin: 0 auto;
+            max-width: 1160px;
+            padding: 14px 18px;
+         
+
+        }
+
+        .brand {
+            color: var(--accent);
+            /* font-family: Georgia, 'Times New Roman', serif; */
+             font-family: "Playfair Display", serif;
+            font-size: 20px;
+            font-weight: 700;
+            text-decoration: none;
+               font-size: 1.2em;
+    
+            white-space: normal;
+        }
+
+        .nav-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: flex-end;
+            font-family: "Playfair Display", serif;
+        }
+
+        .nav-links a,
+        .button,
+        button {
+            align-items: center;
+            background: var(--brand);
+            border: 1px solid var(--brand);
+            color: #fff;
+            cursor: pointer;
+            display: inline-flex;
+            font: inherit;
+            font-weight: 700;
+            justify-content: center;
+            min-height: 38px;
+            padding: 8px 13px;
+            text-decoration: none;
+        }
+
+        .nav-links a.secondary,
+        .button.secondary {
+            background: #fff;
+            color: var(--brand);
+        }
+
+        .button.danger,
+        button.danger {
+            background: var(--danger);
+            border-color: var(--danger);
+        }
+
+        .page-shell {
+            margin: 0 auto;
+            max-width: 1160px;
+            padding: 28px 18px 48px;
+        }
+
+        .page-heading {
+            align-items: flex-end;
+            display: flex;
+            gap: 16px;
+            justify-content: space-between;
+            margin-bottom: 18px;
+        }
+
+        .page-heading h1 {
+            font-size: 30px;
+            line-height: 1.1;
+            margin: 0;
+        }
+
+        .page-heading p {
+            color: var(--muted);
+            margin: 8px 0 0;
+        }
+
+        .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: flex-end;
+        }
+
+        .panel {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow);
+            padding: 22px;
+        }
+
+        .grid {
+            display: grid;
+            gap: 16px;
+        }
+
+        .stats-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            margin-bottom: 18px;
+        }
+
+        .stat {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            padding: 18px;
+        }
+
+        .stat span {
+            color: var(--muted);
+            display: block;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .stat strong {
+            color: var(--brand-dark);
+            display: block;
+            font-size: 34px;
+            margin-top: 4px;
+        }
+
+        .form-grid {
+            display: grid;
+            gap: 14px;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        form p {
+            margin: 0 0 14px;
+        }
+
+        label {
+            color: var(--brand-dark);
+            display: block;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select,
+        textarea {
+            background: #fff;
+            border: 1px solid #b9c8d1;
+            color: var(--ink);
+            font: inherit;
+            max-width: 100%;
+            min-height: 38px;
+            padding: 8px 10px;
+            width: 100%;
+        }
+
+        textarea {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .helptext,
+        .errorlist {
+            color: var(--danger);
+            font-size: 13px;
+            margin: 5px 0 0;
+            padding: 0;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        table.app-table {
+            border-collapse: collapse;
+            min-width: 760px;
+            width: 100%;
+        }
+
+        .app-table th {
+            background: var(--brand);
+            color: #fff;
+            font-size: 13px;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .app-table td {
+            border-bottom: 1px solid var(--line);
+            padding: 10px;
+            vertical-align: top;
+        }
+
+        .app-table tbody tr:hover {
+            background: #f8fbfc;
+        }
+
+        .row-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+        }
+
+        .row-actions a {
+            border: 1px solid var(--line);
+            color: var(--brand);
+            font-size: 13px;
+            font-weight: 700;
+            padding: 5px 8px;
+            text-decoration: none;
+        }
+
+        .empty-state {
+            color: var(--muted);
+            padding: 36px 18px;
+            text-align: center;
+        }
+
+        .section-title {
+            color: var(--brand-dark);
+            font-size: 19px;
+            margin: 0 0 14px;
+        }
+
+        .quote-item-card {
+            border: 1px solid var(--line);
+            margin-bottom: 12px;
+            padding: 14px;
+        }
+
+        .quote-item-grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: minmax(180px, 1.3fr) minmax(180px, 1.4fr) repeat(5, minmax(96px, 1fr));
+        }
+
+        .field label {
+            font-size: 12px;
+        }
+
+        .form-actions {
+            align-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .danger-zone {
+            border-color: #f0c5c0;
+        }
+
+        .danger-zone h1 {
+            color: var(--danger);
+        }
+
+        @media (max-width: 760px) {
+            .nav,
+            .page-heading {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .nav-links,
+            .actions {
+                justify-content: flex-start;
+            }
+
+            .nav-links a,
+            .button,
+            button {
+                width: 100%;
+            }
+
+            .page-shell {
+                padding: 20px 12px 34px;
+            }
+
+            .page-heading h1 {
+                font-size: 25px;
+            }
+
+            .panel {
+                padding: 16px;
+            }
+
+            .stats-grid,
+            .form-grid,
+            .quote-item-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .row-actions {
+                flex-direction: column;
+            }
+
+            .row-actions a {
+                text-align: center;
+            }
+        }
+    </style>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    {% block extra_head %}{% endblock %}
+   
+</head>
+<body>
+    <header class="app-header bg-dark">
+        <!-- <nav class="nav">
+            <a class="brand" href="{% url 'home' %}">Colourful Roofing Quotes</a>
+            <div class="nav-links">
+                <a class="secondary" href="{% url 'quote_list' %}">Quotes</a>
+                <a href="{% url 'create_quote' %}">Create Quote</a>
+                <a class="secondary" href="{% url 'create_customer' %}">Customer</a>
+                <a class="secondary" href="{% url 'create_product' %}">Product</a>
+            </div>
+        </nav> -->
+
+        <nav class="navbar navbar-expand-lg bg-body-tertiary bg-dark">
+  <div class="container">
+    <a class="navbar-brand fs-4 fw-bold" href="{% url 'home' %}">Colourful Roofing Quotes</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'quote_list' %}">Quotes</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'create_quote' %}">Create Quote</a>
+        </li>
+          <li class="nav-item">
+          <a class="nav-link" href="{% url 'create_customer' %}">Customer</a>
+        </li>
+           <li class="nav-item">
+          <a class="nav-link" href="{% url 'create_product' %}">Product</a>
+        </li>
+       
+      </ul>
+    </div>
+  </div>
+</nav>
+    </header>
+
+    <main class="page-shell">
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ quote.quote_number }}</title>
+    <style>
+        :root {
+            --blue: #006b8f;
+            --dark-blue: #105ca8;
+            --red: #c51d23;
+            --line: #078291;
+            --soft: #f4fbfd;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #e9eef2;
+            color: #123;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 13px;
+        }
+
+        .toolbar {
+            max-width: 960px;
+            margin: 18px auto;
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .toolbar a,
+        .toolbar button {
+            border: 1px solid var(--blue);
+            background: #fff;
+            color: var(--blue);
+            cursor: pointer;
+            font: inherit;
+            padding: 8px 12px;
+            text-decoration: none;
+        }
+
+        .page {
+            max-width: 900px;
+            width: calc(100% - 24px);
+            min-height: 1100px;
+            margin: 0 auto 28px;
+            padding: 34px 28px 24px;
+            background: #fff;
+            border: 2px solid var(--line);
+        }
+
+        .company-header {
+            display: grid;
+            grid-template-columns: 130px 1fr;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .logo-mark {
+            width: 118px;
+            height: 72px;
+            border-radius: 58% 42% 54% 46%;
+            background: linear-gradient(135deg, #f6df00 0%, #00a651 28%, #005bbb 55%, #ef3e2e 82%);
+            display: grid;
+            place-items: center;
+            color: #fff;
+            font-size: 38px;
+            font-weight: 700;
+        }
+
+        .company-name {
+            margin: 0;
+            color: var(--red);
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 30px;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+
+        .company-contact {
+            margin-top: 16px;
+            color: var(--blue);
+            font-weight: 700;
+            line-height: 1.8;
+            text-align: right;
+        }
+
+        .title {
+            margin: 8px 0 46px;
+            color: var(--blue);
+            font-size: 25px;
+            font-style: italic;
+            text-align: center;
+        }
+
+        .quote-meta {
+            display: grid;
+            grid-template-columns: 1fr 230px;
+            gap: 28px;
+            align-items: start;
+        }
+
+        .customer-box {
+            border-collapse: collapse;
+            width: 100%;
+        }
+
+        .customer-box th,
+        .customer-box td {
+            border: 1px solid var(--line);
+            height: 24px;
+            padding: 4px 6px;
+            text-align: left;
+        }
+
+        .customer-box th {
+            width: 150px;
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .date-box {
+            color: var(--blue);
+            font-weight: 700;
+            line-height: 1.8;
+            padding-top: 2px;
+            text-align: right;
+        }
+
+        .order-title {
+            margin: 12px 0 6px;
+            color: var(--blue);
+            font-family: Georgia, 'Times New Roman', serif;
+            font-size: 19px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        .items-table,
+        .totals-table,
+        .bank-table,
+        .mpesa-table {
+            border-collapse: collapse;
+        }
+
+        .items-table {
+            min-width: 760px;
+            width: 100%;
+        }
+
+        .items-table th {
+            background: #1769c2;
+            border: 1px solid #1769c2;
+            color: #fff;
+            font-size: 12px;
+            padding: 6px 5px;
+            text-align: center;
+        }
+
+        .items-table td {
+            border: 1px solid var(--line);
+            padding: 5px;
+        }
+
+        .number {
+            text-align: right;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .totals-wrap {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .items-wrap {
+            overflow-x: auto;
+            width: 100%;
+        }
+
+        .totals-table {
+            width: 230px;
+        }
+
+        .totals-table th,
+        .totals-table td {
+            border: 1px solid var(--line);
+            padding: 7px 8px;
+        }
+
+        .totals-table th {
+            color: var(--blue);
+            font-size: 15px;
+            text-align: right;
+        }
+
+        .grand-total th,
+        .grand-total td {
+            background: #d7ebff;
+            font-weight: 700;
+        }
+
+        .terms {
+            margin-top: 18px;
+            color: var(--blue);
+        }
+
+        .terms h2 {
+            border-bottom: 1px solid #999;
+            font-size: 15px;
+            margin: 0 0 6px;
+            padding-bottom: 2px;
+        }
+
+        .terms p {
+            margin: 4px 0;
+        }
+
+        .payment-row {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 76px;
+            align-items: end;
+            margin-top: 82px;
+        }
+
+        .bank-table,
+        .mpesa-table {
+            width: 100%;
+        }
+
+        .bank-table th,
+        .bank-table td,
+        .mpesa-table th,
+        .mpesa-table td {
+            border: 1px solid var(--line);
+            padding: 5px;
+            text-align: left;
+        }
+
+        .bank-table th {
+            width: 145px;
+        }
+
+        .bank-table td,
+        .mpesa-table td {
+            color: var(--blue);
+            font-weight: 700;
+        }
+
+        .mpesa-title {
+            background: #6cb332;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-align: center;
+        }
+
+        .approval {
+            margin: 26px 0 36px;
+            text-align: center;
+        }
+
+        .footer-line {
+            border-top: 2px dotted #b22;
+            margin-top: 18px;
+            padding-top: 26px;
+            text-align: center;
+        }
+
+        .tagline {
+            color: var(--blue);
+            font-style: italic;
+            font-weight: 700;
+        }
+
+        .tagline span {
+            color: var(--red);
+            font-style: normal;
+        }
+
+        @media print {
+            body {
+                background: #fff;
+            }
+
+            .toolbar {
+                display: none;
+            }
+
+            .page {
+                border: 2px solid var(--line);
+                margin: 0;
+                min-height: auto;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 760px) {
+            body {
+                font-size: 12px;
+            }
+
+            .toolbar {
+                flex-direction: column;
+                margin: 12px;
+            }
+
+            .toolbar a,
+            .toolbar button {
+                text-align: center;
+                width: 100%;
+            }
+
+            .page {
+                padding: 18px 12px;
+                width: calc(100% - 16px);
+            }
+
+            .company-header,
+            .quote-meta,
+            .payment-row {
+                grid-template-columns: 1fr;
+            }
+
+            .logo-mark {
+                margin: 0 auto;
+            }
+
+            .company-name {
+                font-size: 22px;
+            }
+
+            .company-contact,
+            .date-box {
+                text-align: left;
+            }
+
+            .title {
+                margin-bottom: 24px;
+            }
+
+            .payment-row {
+                gap: 18px;
+                margin-top: 34px;
+            }
+
+            .totals-table {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="toolbar">
+        <a href="{% url 'quote_list' %}">Back to quotes</a>
+        <button type="button" onclick="window.print()">Print / Save PDF</button>
+    </div>
+
+    <main class="page">
+        <header class="company-header">
+            <div class="logo-mark">C</div>
+            <div>
+                <h1 class="company-name">COLOURFUL ROOFING LIMITED</h1>
+                <div class="company-contact">
+                    Opposite Road B, Enterprise Road, Industrial Area, Nairobi<br>
+                    Email: colourfulroof@gmail.com
+                </div>
+            </div>
+        </header>
+
+        <h2 class="title">SALES QUOTATION</h2>
+
+        <section class="quote-meta">
+            <table class="customer-box">
+                <tr>
+                    <th>CUSTOMER :</th>
+                    <td>{{ quote.customer.name }}</td>
+                </tr>
+                <tr>
+                    <th>Delivery Location:</th>
+                    <td>{{ quote.customer.address|default:"" }}</td>
+                </tr>
+                <tr>
+                    <th>Contacts:</th>
+                    <td>{{ quote.customer.phone_number|default:quote.customer.email }}</td>
+                </tr>
+            </table>
+
+            <div class="date-box">
+                Quote No: {{ quote.quote_number }}<br>
+                Quote Date: {{ quote.date_created|date:"Y/m/d" }}<br>
+                Valid Until: {{ quote.valid_until|date:"Y/m/d" }}
+            </div>
+        </section>
+
+        <h2 class="order-title">
+            Order Details : Supply of Imperial Mabati GCI Sheets &amp; All Colored Mabati
+        </h2>
+
+        {% if quote.items.all %}
+        <div class="items-wrap">
+            <table class="items-table">
+                <thead>
+                    <tr>
+                        <th>ITEM DESCRIPTION</th>
+                        <th>Description</th>
+                        <th>COLOUR</th>
+                        <th>GAUGE (MM)</th>
+                        <th>QTY (PCS)</th>
+                        <th>LENGTH (M)</th>
+                        <th>UNIT PRICE</th>
+                        <th>TOTAL</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in quote.items.all %}
+                        <tr>
+                            <td>{{ item.product.name }}</td>
+                            <td>{{ item.description }}</td>
+                            <td class="center">{{ item.color }}</td>
+                            <td class="center">{{ item.gauge }}</td>
+                            <td class="center">{{ item.quantity }}</td>
+                            <td class="center">{{ item.length|default:"-" }}</td>
+                            <td class="number">{{ item.unit_price }}</td>
+                            <td class="number">{{ item.item_total }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+            <p>No items have been added to this quote.</p>
+        {% endif %}
+
+        <div class="totals-wrap">
+            <table class="totals-table">
+                <tr>
+                    <th>SUBTOTAL</th>
+                    <td class="number">{{ quote.subtotal }}</td>
+                </tr>
+                <tr>
+                    <th>Delivery</th>
+                    <td class="number">{{ quote.delivery_cost|default:"-" }}</td>
+                </tr>
+                <tr class="grand-total">
+                    <th>Quote Total</th>
+                    <td class="number">{{ quote.total }}</td>
+                </tr>
+            </table>
+        </div>
+
+        <section class="terms">
+            <h2>Terms &amp; Instructions</h2>
+            {% if quote.notes %}
+                <p>{{ quote.notes }}</p>
+            {% else %}
+                <p>Payment terms: 100% on order.</p>
+                <p>100% payment required for special sizes.</p>
+            {% endif %}
+        </section>
+
+        <section class="payment-row">
+            <table class="bank-table">
+                <tr>
+                    <th>ACCOUNT NAME:</th>
+                    <td>COLOURFUL ROOFING LTD</td>
+                </tr>
+                <tr>
+                    <th>BANK NAME:</th>
+                    <td>EQUITY BANK</td>
+                </tr>
+                <tr>
+                    <th>BRANCH:</th>
+                    <td>MOMBASA ROAD</td>
+                </tr>
+                <tr>
+                    <th>ACCOUNT NUMBER:</th>
+                    <td>1080 2797 44435</td>
+                </tr>
+            </table>
+
+            <table class="mpesa-table">
+                <tr>
+                    <th colspan="2" class="mpesa-title">LIPA NA M-PESA</th>
+                </tr>
+                <tr>
+                    <th>MPESA PAYBILL</th>
+                    <td>247247</td>
+                </tr>
+                <tr>
+                    <th>ACCOUNT NUMBER</th>
+                    <td>1080 2797 44435</td>
+                </tr>
+            </table>
+        </section>
+
+        <div class="approval">Approved by:</div>
+
+        <footer class="footer-line">
+            <div class="tagline">Quality Above The Rest..... <span>ROOFING MABATI</span></div>
+        </footer>
+    </main>
+</body>
+</html>
