@@ -32,12 +32,18 @@ DEBUG = False
 ALLOWED_HOSTS = [
     host for host in os.environ.get(
         'ALLOWED_HOSTS',
-        'localhost,127.0.0.1,quotemaker-production-b065.up.railway.app'
+        'localhost,127.0.0.1,0.0.0.0,quotemaker-production-b065.up.railway.app'
     ).split(',') if host
 ]
 railway_domain = os.environ.get('RAILWAY_PUBLIC_DOMAIN')
 if railway_domain:
     ALLOWED_HOSTS.append(railway_domain)
+
+# Allow Railway's proxy headers in production.
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 STORAGES = {
     'default': {
@@ -47,7 +53,6 @@ STORAGES = {
         'BACKEND': 'whitenoise.storage.CompressedManifestStaticFilesStorage',
     },
 }
-
 
 
 # Application definition
