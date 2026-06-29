@@ -22,7 +22,7 @@ class Product(models.Model):
         return self.name
 
 class Quote(models.Model):
-    quote_number = models.CharField(max_length=20, unique=True)
+    quote_number = models.CharField(max_length=20, unique=True, blank=True, null=True)
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     valid_until = models.DateTimeField()

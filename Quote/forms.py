@@ -42,7 +42,7 @@ class ProductForm(forms.ModelForm):
             'price',
             'color',
             'gauge',
-         
+            'description',
         ]
 
 
@@ -51,7 +51,7 @@ QuoteItemFormSet = inlineformset_factory(
     QuoteItem,
     fields=[
         'product',
-       
+        'description',
         'color',
         'gauge',
         'quantity',
