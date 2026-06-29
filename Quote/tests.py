@@ -1,3 +1,10 @@
-from django.test import TestCase
+from django.conf import settings
+from django.test import SimpleTestCase
 
-# Create your tests here.
+
+class StaticFilesSettingsTests(SimpleTestCase):
+    def test_staticfiles_use_whitenoise_storage(self):
+        self.assertEqual(
+            settings.STORAGES["staticfiles"]["BACKEND"],
+            "whitenoise.storage.CompressedManifestStaticFilesStorage",
+        )
