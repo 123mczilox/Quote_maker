@@ -6,106 +6,96 @@
 
 {% block content %}
 
+    <!-- Hero Section -->
     <section class="page-heading container">
-        <div class="mt-5 mb-3 pb-5">
+        <div class="mt-5 mb-3 pb-3">
             <h1 class="display-3 fw-bold pb-2">Quotation Management System</h1>
-            <p class="fs-5">Create professional roofing quotations, save them, and print or export them for customers.</p>
+            <p class="fs-5 text-muted">Create professional roofing quotations, save them, and print or export them for customers.</p>
         </div>
-
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-            <a button type="button" class="btn btn-outline-primary"href="{% url 'create_quote' %}">Create Quote</a>
-            <a button type="button" class="btn btn-outline-success"href="{% url 'quote_list' %}">View Quotes</a>
-      
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end pb-4">
+            <a class="btn btn-primary" href="{% url 'create_quote' %}"><i class="bi bi-plus-circle"></i> Create Quote</a>
+            <a class="btn btn-outline-secondary" href="{% url 'quote_list' %}"><i class="bi bi-list-ul"></i> View Quotes</a>
         </div>
-     
     </section>
-<!-- 
-    <section class="grid stats-grid d-flex justify-content-center gap-5 ">
-        <div class="col-lg-4 col-md-2 col-sm-1 d-flex justify-content-center gap-5">
-        <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title"><span>Quotes</span></h5>
-    
-    <p class="card-text">{{ quote_count }}</p>
-  </div>
-</div>
- <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title"><span>Customers</span></h5>
-    
-    <p class="card-text">{{ customer_count }}</p>
-  </div>
-</div>
- <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title"><span>Products</span></h5>
-    
-    <p class="card-text">{{ product_count }}</p>
-  </div>
-</div>
-</div> -->
-<section class="container my-5">
-    <div class="row g-4">
 
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Quotes</h5>
-                    <p class="display-5 fw-bold">{{ quote_count }}</p>
+    <!-- Stat Cards -->
+    <section class="container mb-5">
+        <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="stat-card">
+                    <span class="stat-label">QUOTES</span>
+                    <p class="stat-number">{{ quote_count }}</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="stat-card">
+                    <span class="stat-label">CUSTOMERS</span>
+                    <p class="stat-number">{{ customer_count }}</p>
+                </div>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="stat-card">
+                    <span class="stat-label">PRODUCTS</span>
+                    <p class="stat-number">{{ product_count }}</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Customers</h5>
-                    <p class="display-5 fw-bold">{{ customer_count }}</p>
+    <!-- Main Content Grid -->
+    <section class="container mb-5">
+        <div class="row g-4">
+            <!-- Quick Start -->
+            <div class="col-12 col-lg-6">
+                <div class="panel">
+                    <h2 class="section-title mb-4"><i class="bi bi-lightning-charge"></i> Quick Start</h2>
+                    <div class="d-grid gap-2">
+                        <a class="btn btn-quick-start" href="{% url 'create_customer' %}">
+                            <i class="bi bi-person-plus"></i> Add Customer
+                        </a>
+                        <a class="btn btn-quick-start" href="{% url 'create_product' %}">
+                            <i class="bi bi-box-seam"></i> Add Product
+                        </a>
+                        <a class="btn btn-quick-start" href="{% url 'create_quote' %}">
+                            <i class="bi bi-file-earmark-text"></i> Create Quotation
+                        </a>
+                        <a class="btn btn-quick-start" href="{% url 'quote_list' %}">
+                            <i class="bi bi-clock-history"></i> Retrieve Old Quotes
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Executive Insights -->
+            <div class="col-12 col-lg-6">
+                <div class="panel panel-insights">
+                    <h2 class="section-title text-white mb-3"><i class="bi bi-graph-up"></i> Executive Insights</h2>
+                    <p class="text-white-50 mb-4">Your quotation conversion rate is up 12% this month. Review your product margins to optimize profitability.</p>
+                    <a href="#" class="btn btn-sm btn-outline-light">View Report <i class="bi bi-arrow-right"></i></a>
                 </div>
             </div>
         </div>
+    </section>
 
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Products</h5>
-                    <p class="display-5 fw-bold">{{ product_count }}</p>
+    <!-- Support Card -->
+    <section class="container mb-5">
+        <div class="row">
+            <div class="col-12 col-lg-6 offset-lg-6">
+                <div class="panel panel-support">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="support-icon">
+                            <i class="bi bi-headset"></i>
+                        </div>
+                        <div>
+                            <h3 class="mb-1">NEED ASSISTANCE?</h3>
+                            <p class="mb-0 text-muted">Contact Pro Support</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
-    </div>
-</section>
-<!-- 
-        <div class="stat rounded-4">
-            <span>Quotes</span>
-            <strong>{{ quote_count }}</strong>
-        </div>
-        <div class="stat rounded-4 outline-dark">
-            <span>Customers</span>
-            <strong>{{ customer_count }}</strong>
-        </div>
-        <div class="stat rounded-4 ">
-            <span>Products</span>
-            <strong>{{ product_count }}</strong>
-        </div> -->
     </section>
 
-    <section class="panel">
-        <h2 class="section-title">Quick Start</h2>
-        <!-- <div class="grid form-grid">
-            <a class="button secondary" href="{% url 'create_customer' %}">Add Customer</a>
-            <a class="button secondary" href="{% url 'create_product' %}">Add Product</a>
-            <a class="button" href="{% url 'create_quote' %}">Create Quotation</a>
-            <a class="button secondary" href="{% url 'quote_list' %}">Retrieve Old Quotes</a>
-        </div> -->
-        <div class="d-grid gap-2 col-6 mx-auto">
-  <a class="btn btn-outline-warning" href="{% url 'create_customer' %}">Add Customer</a>
-  <a class="btn btn-outline-warning" href="{% url 'create_product' %}">Add Product</a>
-  <a class="btn btn-outline-warning" href="{% url 'create_quote' %}">Create Quotation</a>
-  <a class="btn btn-outline-warning" href="{% url 'quote_list' %}">Retrieve Old Quotes</a>
-</div>
-    </section>
 {% endblock %}
 
 

@@ -9,18 +9,18 @@
             <p>Add roofing products so they can be selected inside quotation item rows.</p>
         </div>
         <div class="actions">
-            <a class="button secondary" href="{% url 'quote_list' %}">View Quotes</a>
-            <a class="button" href="{% url 'create_quote' %}">Create Quote</a>
+            <a class="btn btn-outline-secondary" href="{% url 'quote_list' %}"><i class="bi bi-list-ul"></i> View Quotes</a>
+            <a class="btn btn-primary" href="{% url 'create_quote' %}"><i class="bi bi-plus-circle"></i> Create Quote</a>
         </div>
     </section>
 
     <section class="panel">
-        <form method="post">
+            <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <div class="form-actions">
-                <button type="submit">Save Product</button>
-                <a class="button secondary" href="{% url 'home' %}">Cancel</a>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save Product</button>
+                <a class="btn btn-outline-secondary" href="{% url 'home' %}">Cancel</a>
             </div>
         </form>
     </section>

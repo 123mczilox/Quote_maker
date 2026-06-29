@@ -116,9 +116,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [
-    BASE_DIR / "Quote/static",
-]
+# Use app-level `static/` directories (e.g. `Quote/static`).
+# Avoid adding the same app static path to STATICFILES_DIRS to prevent
+# duplicate discovery when using the AppDirectoriesFinder.
+STATICFILES_DIRS = []
+STATIC_ROOT = BASE_DIR / "staticfiles"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

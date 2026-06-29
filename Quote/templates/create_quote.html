@@ -9,9 +9,9 @@
             <p>Add customer details, item rows, and delivery cost. Totals are calculated when the quote is saved.</p>
         </div>
         <div class="actions">
-            <a class="button secondary" href="{% url 'quote_list' %}">View Quotes</a>
-            <a class="button secondary" href="{% url 'create_customer' %}">Add Customer</a>
-            <a class="button secondary" href="{% url 'create_product' %}">Add Product</a>
+            <a class="btn btn-outline-secondary" href="{% url 'quote_list' %}"><i class="bi bi-list-ul"></i> View Quotes</a>
+            <a class="btn btn-outline-success" href="{% url 'create_customer' %}"><i class="bi bi-person-plus"></i> Add Customer</a>
+            <a class="btn btn-outline-info" href="{% url 'create_product' %}"><i class="bi bi-box-seam"></i> Add Product</a>
         </div>
     </section>
 
@@ -29,7 +29,7 @@
                     <h2 class="section-title">Items</h2>
                     <p>Use length for sheets. Leave length blank for items priced per piece.</p>
                 </div>
-                <button type="button" id="add-item">Add Item Row</button>
+                <button type="button" id="add-item" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus"></i> Add Item Row</button>
             </div>
 
             {{ item_formset.management_form }}
@@ -144,8 +144,8 @@
             <p><strong>Quote total:</strong> KES <span id="preview-total">0.00</span></p>
 
             <div class="form-actions">
-                <button type="submit">Save Quote</button>
-                <a class="button secondary" href="{% url 'quote_list' %}">Cancel</a>
+                <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save Quote</button>
+                <a class="btn btn-outline-secondary" href="{% url 'quote_list' %}">Cancel</a>
             </div>
         </section>
     </form>

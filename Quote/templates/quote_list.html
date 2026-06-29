@@ -9,8 +9,8 @@
             <p>Open, edit, print, or delete saved customer quotations.</p>
         </div>
         <div class="actions">
-            <a class="button secondary" href="{% url 'home' %}">Dashboard</a>
-            <a class="button" href="{% url 'create_quote' %}">Create Quote</a>
+            <a class="btn btn-outline-secondary" href="{% url 'home' %}"><i class="bi bi-house"></i> Dashboard</a>
+            <a class="btn btn-primary" href="{% url 'create_quote' %}"><i class="bi bi-plus-circle"></i> Create Quote</a>
         </div>
     </section>
 
@@ -36,9 +36,9 @@
                                 <td>KES {{ quote.total }}</td>
                                 <td>
                                     <div class="row-actions">
-                                        <a href="{% url 'quote_detail' quote.pk %}">View</a>
-                                        <a href="{% url 'update_quote' quote.pk %}">Edit</a>
-                                        <a href="{% url 'delete_quote' quote.pk %}">Delete</a>
+                                        <a class="btn btn-sm btn-outline-primary" href="{% url 'quote_detail' quote.pk %}"><i class="bi bi-eye"></i></a>
+                                        <a class="btn btn-sm btn-outline-secondary" href="{% url 'update_quote' quote.pk %}"><i class="bi bi-pencil"></i></a>
+                                        <a class="btn btn-sm btn-outline-danger" href="{% url 'delete_quote' quote.pk %}"><i class="bi bi-trash"></i></a>
                                     </div>
                                 </td>
                             </tr>
